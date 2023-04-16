@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 function App() {
   const [todoText, setTodoText] = useState('');
-  const [incompleteTodos, setIncompleteTodos] = useState(['ああああ', 'いいいい']);
-  const [completeTodos, setcompleteTodos] = useState(['うううう', 'ええええ']);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setcompleteTodos] = useState([]);
 
   const onChangeTodoText = (event) => setTodoText(event.target.value);
 
@@ -29,6 +29,14 @@ function App() {
     setIncompleteTodos(newIncompleteTodos);
     setcompleteTodos(newCompleteTodos);
 
+  };
+
+  const onClickReturn = (index) => {
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setcompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   return (
@@ -60,11 +68,11 @@ function App() {
           <div className="complete-area">
             <p className='title'>完了のTODO</p>
             <ul>
-              {completeTodos.map((todo) => {
+              {completeTodos.map((todo, index) => {
                 return (
                   <div key={todo} className='list-row'>
                     <li>{todo}</li>
-                    <button>戻す</button>
+                    <button onClick={() => onClickReturn(index)}>戻す</button>
 
                   </div>
 
